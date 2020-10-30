@@ -1,0 +1,19 @@
+name: "dart_shelf_server"
+version: 0.0.1
+
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  shelf: ^0.7.9
+  shelf_router: ^0.7.2
+  shelf_static: ^0.2.8
+  shelf_web_socket: ^0.2.3
+  web_socket_channel: ^1.1.0
+  http_server: ^0.9.8+3
+  mime: ^0.9.7
+  uuid: ^2.2.2
+  async: ^2.4.2
+  shelf_virtual_directory: ^1.0.0+1

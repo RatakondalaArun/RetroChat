@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retro Chat</title>
+    <link rel="stylesheet" href="style/index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app" class="container">
+      <h1 id="header">
+        Retro Chat_
+      </h1>
+      <div id="connection-status"></div>
+      <div id="user-name"></div>
+      <div id="user-room"></div>
+      <div id="output-screen"></div>
+      <input id="message-box" type="text" />
+      <input id="send-btn" type="button" value="Send" placeholder="Message" />
+      <input id="reset-btn" type="button" value="Reset" placeholder="Message" />
+    </div>
+  </body>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.1/uuid.min.js"
+    integrity="sha512-4JH7nC4nSqPixxbhZCLETJ+DUfHa+Ggk90LETm25fi/SitneSvtxkcWAUujvYrgKgvrvwv4NDAsFgdwCS79Dcw=="
+    crossorigin="anonymous"
+  ></script>
+  <script src="script/index.js"></script>
+</html>

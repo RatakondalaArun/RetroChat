@@ -1,0 +1,68 @@
+body {
+  background-color: #d9e4dd;
+  color: #555555;
+  font-family: "Press Start 2P", cursive;
+}
+
+#output-screen {
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px 5px 5px 10px;
+}
+.container {
+  margin-left: 10%;
+  margin-right: 10%;
+  display: grid;
+  gap: 1em;
+  grid-template-rows: repeat(12, auto-fit);
+  grid-template-columns: auto;
+  /* justify-content: center; */
+}
+
+#header {
+  grid-row: auto;
+  grid-column: span 12;
+  justify-content: left !important;
+}
+
+#message-box {
+  grid-row: span auto;
+  grid-column: span 8;
+  font-family: "Press Start 2P";
+}
+
+#output-screen {
+  height: 400px;
+  grid-row: span 20;
+  grid-column: span 12;
+  overflow: scroll;
+}
+
+#connection-status {
+  height: 10px;
+  width: 10px;
+  grid-row: span 1;
+  grid-column: span 1;
+  border-radius: 100%;
+  background-color: red;
+}
+
+.online {
+  background-color: green !important;
+}
+
+.chat {
+  font-size: 12px !important ;
+}
+
+.received-chat {
+  color: #f5b461;
+}
+
+.sent-chat {
+  color: #fd5b3e;
+}
+
+/* .info-chat{
+  color: ;
+} */
