@@ -21,7 +21,7 @@ void main() {
     final webAndStaticFilesHandler = Pipeline()
         .addMiddleware(logRequests())
         .addMiddleware(webSocketMiddleWare(rooms))
-        .addHandler(ShelfVirtualDirectory('../web').handler);
+        .addHandler(ShelfVirtualDirectory('../public').handler);
 
     serve(webAndStaticFilesHandler, address, port)
         .then(
