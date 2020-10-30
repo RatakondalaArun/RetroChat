@@ -45,14 +45,14 @@ function loadComponents() {
 }
 
 function loadWebSocketComponents() {
-  ws = new WebSocket(`ws://localhost:8080/ws?user=${user.name}&room=${user.room}`);
+  ws = new WebSocket(`ws://${window.location.host}/ws?user=${user.name}&room=${user.room}`);
   ws.onopen = (event) => {
     console.log("Socket Opened: ", event);
     document.getElementById("connection-status").classList.toggle("online");
   };
   ws.onmessage = handleMessageFromServer;
 
-  ws.onclose = (event) => {
+  ws.onclose = (_) => {
     closeWebSocket();
   };
   ws.onerror = (err) => console.log("WebSocket Error: ", err);
