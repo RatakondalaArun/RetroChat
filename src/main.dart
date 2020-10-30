@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:shelf/shelf.dart' show Pipeline, logRequests;
@@ -26,7 +25,7 @@ void main() {
     serve(webAndStaticFilesHandler, address, port)
         .then(
           (server) =>
-              print('Serving at ws://${server.address.host}:${server.port}'),
+              print('Serving at wss://${server.address.host}:${server.port}'),
         )
         .whenComplete(
           () => rooms.values.forEach((room) async => await room.dispose()),

@@ -45,7 +45,10 @@ function loadComponents() {
 }
 
 function loadWebSocketComponents() {
-  ws = new WebSocket(`ws://${window.location.host}/ws?user=${user.name}&room=${user.room}`);
+  const protocal = window.location.host.includes("localhost") ? "ws" : "wss";
+  ws = new WebSocket(
+    `${protocal}://${window.location.host}/ws?user=${user.name}&room=${user.room}`
+  );
   ws.onopen = (event) => {
     console.log("Socket Opened: ", event);
     document.getElementById("connection-status").classList.toggle("online");
