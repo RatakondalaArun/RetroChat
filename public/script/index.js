@@ -45,10 +45,9 @@ function loadComponents() {
 }
 
 function loadWebSocketComponents() {
-  const protocal = window.location.host.includes("localhost") ? "ws" : "wss";
-  ws = new WebSocket(
-    `${protocal}://${window.location.host}/ws?user=${user.name}&room=${user.room}`
-  );
+  const protocal =
+    location.host.includes("localhost") || location.host.includes("127.0.0.1") ? "ws" : "wss";
+  ws = new WebSocket(`${protocal}://${location.host}/ws?user=${user.name}&room=${user.room}`);
   ws.onopen = (event) => {
     console.log("Socket Opened: ", event);
     document.getElementById("connection-status").classList.toggle("online");
@@ -86,7 +85,7 @@ function handleMessageFromServer(payload) {
   const node = document.createElement("p");
   node.classList.add("chat", message.clientId === user.id ? "sent-chat" : "received-chat");
   const date = new Date(Date.parse(message.timestamp));
-  node.innerText = `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}] [${
+  node.innerText = `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}][${
     message.clientName
   }]>> ${message.message}`;
   document.getElementById("output-screen").appendChild(node);
@@ -98,7 +97,6 @@ function sendMessage() {
   if (ws === null) loadWebSocketComponents();
   ws.send(
     JSON.stringify({
-      id: uuid.v1(),
       clientId: user.id,
       name: user.name,
       message: document.getElementById("message-box").value,
