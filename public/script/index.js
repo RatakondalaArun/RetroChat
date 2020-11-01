@@ -46,7 +46,7 @@ function loadComponents() {
     const url = `${isLocalHost() ? "" : "https://"}${location.host}?room=${user.room}`;
     await navigator.clipboard.writeText(url);
     document.getElementById("share-btn").value = "Copied!";
-    setTimeout(() => (document.getElementById("share-btn").value = "Share"), 2000);
+    setTimeout(() => (document.getElementById("share-btn").value = "Invite Others"), 2000);
   };
 }
 
@@ -91,6 +91,7 @@ function handleMessageFromServer(payload) {
   }]>> ${message.message}`;
   document.getElementById("output-screen").appendChild(node);
   document.getElementById("output-screen").scrollBy(0, 100);
+  checkAndRunCommand(message.message, user.name);
 }
 
 function sendMessage() {
