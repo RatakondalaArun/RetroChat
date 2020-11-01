@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:uuid/uuid.dart';
 
 import 'client.dart';
@@ -8,19 +10,32 @@ class Room {
   final Map<String, Client> _clients;
   final List<Message> _messages;
 
+  void Function(String id) _onRoomDisposed;
+  void Function(Client) _onClientRemoved;
+  StreamSubscription _streamSub;
+
   String get id => _id;
   int get totalClients => _clients.length;
   List<Client> get clients => _clients.values.toList();
   List<Message> get messages => _messages;
+  void set onClientRemoved(void Function(Client) callback) {
+    _onClientRemoved = callback;
+  }
 
-  const Room._(
+  void set onRoomDisposed(void Function(String id) onRoomDisposed) {
+    _onRoomDisposed = onRoomDisposed;
+  }
+
+  Room._(
     this._id,
     this._clients,
     this._messages,
+    this._onClientRemoved,
   );
 
   /// Creates a [Room] with a id and list of clients
-  factory Room.create(String id, [List clients]) {
+  factory Room.create(String id,
+      [List clients, void Function(Client) onClientRemoved]) {
     return Room._(
       id,
       Map<String, Client>.fromIterable(
@@ -29,6 +44,7 @@ class Room {
         value: (client) => client,
       ),
       <Message>[],
+      onClientRemoved,
     );
   }
 
@@ -49,7 +65,7 @@ class Room {
       _messages.forEach((m) => client.sendMessage(m));
     }
 
-    // add client stream to room
+    // redirects client messages to users
     client.setUpStream(
       onEvent: (message) {
         sendBrodCastMessage(message);
@@ -57,9 +73,13 @@ class Room {
       },
       onClosed: (client) {
         removeClient(client.id);
-        print('Disconnected client ${client.id} name: ${client.name}');
       },
     );
+    // disables self-destruction on rejoin
+    if (_clients.isNotEmpty && _streamSub != null) {
+      await _streamSub?.cancel();
+      print('self-destruction disabled');
+    }
   }
 
   // checks if client already exists
@@ -71,10 +91,22 @@ class Room {
 
   // removes client from the
   void removeClient(String id) {
-    if (_clients.containsKey(id)) {
-      _clients.remove(id);
+    if (isClientExist(id)) {
+      final removedClient = _clients.remove(id);
+      _onClientRemoved?.call(removedClient);
+
+      // set room self-destruction when users are empty
       if (_clients.isEmpty) {
-        dispose();
+        // print('Self destruction started');
+        _streamSub?.cancel(); // cancels previous sub
+        _streamSub = Stream.fromFuture(Future.delayed(
+                Duration(seconds: 10))) //returns after 10 seconds
+            .listen((_) {});
+        _streamSub?.onDone(() async {
+          await dispose();
+          // print('room "$_id" disposed ');
+          _onRoomDisposed?.call(_id);
+        });
       }
     }
   }
@@ -84,9 +116,9 @@ class Room {
     _clients.values.forEach((client) => client.sendMessage(message));
   }
 
-  Future<void> dispose() {
-    print('Disposing room = $this');
-    return Future.value();
+  void dispose() async {
+    await _streamSub?.cancel();
+    _messages.clear();
   }
 
   @override
