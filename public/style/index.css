@@ -64,8 +64,16 @@ body {
 }
 
 #reset-btn {
-  grid-column: 2/4;
+  grid-column: 2/3;
   height: 30px;
+  font-size: 8px;
+  font-family: "Press Start 2P";
+}
+
+#share-btn {
+  grid-column: 3/4;
+  height: 30px;
+  font-size: 8px;
   font-family: "Press Start 2P";
 }
 

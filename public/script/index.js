@@ -15,9 +15,8 @@ const user = {
   },
   loadUserData() {
     this.id = localStorage.getItem("id");
-    this.name = localStorage.getItem("name");
-    this.room = localStorage.getItem("room");
-    console.log(this.id, this.name, this.room);
+    this.name = window.url("?username") ?? localStorage.getItem("name");
+    this.room = window.url("?room") ?? localStorage.getItem("room");
   },
   delete() {
     localStorage.removeItem("id");
@@ -28,7 +27,7 @@ const user = {
 
 function loadComponents() {
   user.loadUserData();
-  console.log("is not valid", !user.isValid());
+
   if (!user.isValid()) {
     user.name = prompt("Your name");
     user.room = prompt("Room name");
@@ -42,14 +41,19 @@ function loadComponents() {
     closeWebSocket();
     loadComponents();
   };
+  document.getElementById("share-btn").onclick = async () => {
+    console.log(`https://${location.host}?room=${user.room}`);
+    const url = `${isLocalHost() ? "" : "https://"}${location.host}?room=${user.room}`;
+    await navigator.clipboard.writeText(url);
+    document.getElementById("share-btn").value = "Copied!";
+    setTimeout(() => (document.getElementById("share-btn").value = "Share"), 2000);
+  };
 }
 
 function loadWebSocketComponents() {
-  const protocal =
-    location.host.includes("localhost") || location.host.includes("127.0.0.1") ? "ws" : "wss";
+  const protocal = isLocalHost() ? "ws" : "wss";
   ws = new WebSocket(`${protocal}://${location.host}/ws?user=${user.name}&room=${user.room}`);
-  ws.onopen = (event) => {
-    console.log("Socket Opened: ", event);
+  ws.onopen = (_) => {
     document.getElementById("connection-status").classList.toggle("online");
   };
   ws.onmessage = handleMessageFromServer;
@@ -57,8 +61,7 @@ function loadWebSocketComponents() {
   ws.onclose = (_) => {
     closeWebSocket();
   };
-  ws.onerror = (err) => console.log("WebSocket Error: ", err);
-  document.getElementById("send-btn").onclick = sendMessage;
+  ws.onerror = (_) => (document.getElementById("send-btn").onclick = sendMessage);
   document.getElementById("message-box").onkeydown = (event) => {
     if (event.key == "Enter") sendMessage();
   };
@@ -73,15 +76,13 @@ function closeWebSocket() {
 
 function handleMessageFromServer(payload) {
   const message = JSON.parse(payload.data);
+  // TODO: rename to pong
   if (message.type === "first") {
     user.id = message.clientId;
-    console.log("user", user);
     user.saveUserData();
     return;
   }
-  console.log("message clientId == user.id ", message.clientId === user.id);
-  console.log("clientid : ", message.clientId);
-  console.log("userid : ", user.id);
+
   const node = document.createElement("p");
   node.classList.add("chat", message.clientId === user.id ? "sent-chat" : "received-chat");
   const date = new Date(Date.parse(message.timestamp));
@@ -105,6 +106,8 @@ function sendMessage() {
   document.getElementById("message-box").value = "";
 }
 
+function isLocalHost() {
+  return location.host.includes("localhost") || location.host.includes("127.0.0.1");
+}
+
 window.onload = loadComponents;
-// TODO: clear local settings
-// window.onclose = () => user.delete();
