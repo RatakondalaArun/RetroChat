@@ -99,8 +99,9 @@ class Room {
       if (_clients.isEmpty) {
         // print('Self destruction started');
         _streamSub?.cancel(); // cancels previous sub
-        _streamSub = Stream.fromFuture(Future.delayed(
-                Duration(seconds: 10))) //returns after 10 seconds
+        _streamSub = Stream.fromFuture(
+          Future.delayed(Duration(minutes: 5)),
+        ) //returns after 10 seconds
             .listen((_) {});
         _streamSub?.onDone(() async {
           await dispose();
