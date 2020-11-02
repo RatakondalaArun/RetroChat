@@ -40,7 +40,7 @@ class WebSocketChat {
                     client.id,
                     client.name,
                     'first',
-                    type: MessageType.first,
+                    type: MessageType.pong,
                   ));
 
                   // add client to the rooom
@@ -107,8 +107,8 @@ Middleware webSocketMiddleWare(Map<String, Room> rooms) {
                 client.sendMessage(Message.create(
                   client.id,
                   client.name,
-                  'first',
-                  type: MessageType.first,
+                  'pong',
+                  type: MessageType.pong,
                 ));
 
                 // add client to the rooom

@@ -1,6 +1,6 @@
 part of websocketchat;
 
-enum MessageType { first, user, info, error, unknown }
+enum MessageType { pong, user, info, error, unknown }
 
 class Message {
   final String id;
@@ -66,8 +66,8 @@ extension MessageTypeExtension on MessageType {
         return MessageType.info;
       case 'user':
         return MessageType.user;
-      case 'first':
-        return MessageType.first;
+      case 'pong':
+        return MessageType.pong;
       default:
         return MessageType.unknown;
     }
@@ -81,8 +81,8 @@ extension MessageTypeExtension on MessageType {
         return 'info';
       case MessageType.user:
         return 'user';
-      case MessageType.first:
-        return 'first';
+      case MessageType.pong:
+        return 'pong';
       default:
         return 'unknown';
     }

@@ -70,19 +70,17 @@ function loadWebSocketComponents() {
 function closeWebSocket() {
   ws.close();
   ws = null;
-  // TODO: rename id to connection status
   document.getElementById("connection-status").classList.toggle("online");
 }
 
 function handleMessageFromServer(payload) {
   const message = JSON.parse(payload.data);
-  // TODO: rename to pong
-  if (message.type === "first") {
+  // sets user id from server
+  if (message.type === "pong") {
     user.id = message.clientId;
     user.saveUserData();
     return;
   }
-
   const node = document.createElement("p");
   node.classList.add("chat", message.clientId === user.id ? "sent-chat" : "received-chat");
   const date = new Date(Date.parse(message.timestamp));
