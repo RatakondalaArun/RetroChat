@@ -2,6 +2,8 @@
 
 A realtime websocket chat application built using [Dart](https://dart.dev), [Shelf](https://pub.dev/packages/shelf), and JavaScript.
 
+<image src="screenshots/retro-chat.gif" >
+
 ## How it Works?
 
 | Class     | Usecase                            |
