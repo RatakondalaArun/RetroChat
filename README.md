@@ -13,7 +13,7 @@ A realtime websocket chat application built using [Dart](https://dart.dev), [She
 `Client`(s) can join a `Room` and pass `Message` objects among them using websockets.
 Each `Room` contains `Message`(s) which are stored in server memory and a self destruction timer (5 minutes) which gets triggered as soon as all `Client`(s) leave the `Room` and timer can be aborted if a `Client` rejoins the `Room` within 5 minutes.
 
-## Requirments**
+## Requirments
 
 - [Dart SDK](https://dart.dev/get-dart)
 - Code Editor with dart plugins.
