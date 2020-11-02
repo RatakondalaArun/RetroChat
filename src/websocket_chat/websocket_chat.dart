@@ -1,9 +1,16 @@
+library websocketchat;
+
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:shelf/shelf.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
+import 'package:uuid/uuid.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'message.dart';
-import 'client.dart';
-import 'room.dart';
+part 'message.dart';
+part 'client.dart';
+part 'room.dart';
 
 class WebSocketChat {
   final Map<String, Room> _rooms;
@@ -14,6 +21,7 @@ class WebSocketChat {
     return WebSocketChat._({});
   }
 
+  /// returns a websocket middleware
   Middleware get middleware {
     return createMiddleware(
       requestHandler: (req) {

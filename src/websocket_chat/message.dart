@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:uuid/uuid.dart';
+part of websocketchat;
 
 enum MessageType { first, user, info, error, unknown }
 

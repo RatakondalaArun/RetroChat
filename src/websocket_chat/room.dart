@@ -1,9 +1,4 @@
-import 'dart:async';
-
-import 'package:uuid/uuid.dart';
-
-import 'client.dart';
-import 'message.dart';
+part of websocketchat;
 
 class Room {
   final String _id;

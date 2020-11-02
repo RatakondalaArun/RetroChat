@@ -1,9 +1,4 @@
-import 'dart:convert';
-
-import 'package:uuid/uuid.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-
-import 'message.dart';
+part of websocketchat;
 
 class Client {
   final String _id;

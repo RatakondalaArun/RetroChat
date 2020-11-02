@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:shelf/shelf.dart' show Pipeline, logRequests;
 import 'package:shelf/shelf_io.dart' show serve;
 import 'package:shelf_virtual_directory/shelf_virtual_directory.dart';
-import 'websocket.dart';
+import 'websocket_chat/websocket_chat.dart';
 
 const SCRIPTS_PATH = '../web/script/';
 const STYLES_PATH = '../web/style/';
